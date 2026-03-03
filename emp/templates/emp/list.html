@@ -1,0 +1,47 @@
+{% extends "emp/master.html" %}
+
+{% block title %}
+Employee List
+{% endblock %}
+
+{% block content %}
+<h2>Employee List</h2>
+
+<form method="post" action="{% url 'emp_bulk_delete' %}">
+    {% csrf_token %}
+
+    <a href="{% url 'emp_add' %}">Add Employee</a><br><br>
+
+    <table border="1">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Join Date</th>
+            <th>Salary</th>
+            <th>Action</th>
+        </tr>
+
+        {% for i in data %}
+        <tr>
+            <td><input type="checkbox" name="selected_ids" value="{{ i.id }}"></td>
+            <td>{{ i.name }}</td>
+            <td>{{ i.email }}</td>
+            <td>{{ i.phone }}</td>
+            <td>{{ i.department }}</td>
+            <td>{{ i.join_date }}</td>
+            <td>{{i.salary}}</td>
+            <td>
+                <a href="{% url 'emp_edit' i.id %}">Edit</a>
+                <a href="{% url 'emp_delete' i.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <button type="submit">Delete Selected</button>
+</form>
+{% endblock %}
